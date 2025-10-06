@@ -47,3 +47,12 @@ Branch: `share-with-BA-SE438`
 Happy to help with a short README clip for the video explaining how to run and what to show on screen.
 
 -- Lingrow team
+
+VS Code instructions
+--------------------
+1. Open the project folder in Visual Studio Code.
+2. Recommended extensions: Python (ms-python.python), Pylance (ms-python.vscode-pylance).
+3. Use the Run view and select "Run Lingrow (main.py)" to start the app inside the integrated terminal.
+4. If you don't have a `.venv`, run `./run.sh` once to create it; then select the interpreter at the bottom-right in VS Code (`.venv/bin/python`).
+
+Note: The repo includes a `.vscode/launch.json` and `.vscode/settings.json` to make opening in VS Code easier.
