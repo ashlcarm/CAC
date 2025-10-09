@@ -125,6 +125,33 @@ class LingrowApp:
         self.icon_images = {}
         self.load_nav_icons()
 
+        # Try to set application icon from generated assets (if available)
+        try:
+            icon_path = os.path.join('assets', 'lingrow_logo.png')
+            if os.path.exists(icon_path):
+                try:
+                    from PIL import Image, ImageTk
+                    img = Image.open(icon_path)
+                    img.thumbnail((64, 64))
+                    self.app_icon = ImageTk.PhotoImage(img)
+                    try:
+                        # use self.root (correct reference) to set window icon
+                        self.root.iconphoto(False, self.app_icon)
+                    except Exception:
+                        pass
+                except Exception:
+                    try:
+                        tk_img = tk.PhotoImage(file=icon_path)
+                        self.app_icon = tk_img
+                        try:
+                            self.root.iconphoto(False, self.app_icon)
+                        except Exception:
+                            pass
+                    except Exception:
+                        pass
+        except Exception:
+            pass
+
         self.show_home()
 
     def draw_nav(self):
@@ -229,22 +256,8 @@ class LingrowApp:
         If cairosvg is installed it will convert SVG to PNG on the fly.
         """
         for key, path in ICON_PATHS.items():
-            # Try to set application icon from generated assets (if available)
-            try:
-                from PIL import Image, ImageTk
-                icon_path = os.path.join('assets', 'lingrow_logo.png')
-                if os.path.exists(icon_path):
-                    img = Image.open(icon_path)
-                    img.thumbnail((64, 64))
-                    self.app_icon = ImageTk.PhotoImage(img)
-                    try:
-                        root.iconphoto(False, self.app_icon)
-                    except Exception:
-                        # some platforms may not support iconphoto
-                        pass
-            except Exception:
-                # Pillow not available or load failed; ignore
-                pass
+            if not os.path.exists(path):
+                continue
             if not os.path.exists(path):
                 continue
 
